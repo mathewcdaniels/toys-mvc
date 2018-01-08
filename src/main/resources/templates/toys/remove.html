@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1 th:text="${title}">Title</h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<form method="post">
+    <div th:each="toy : ${toys}" class="checkbox">
+        <input type="checkbox" name="ids" th:value="${toy.id}" th:id="${toy.id}" />
+        <label th:for="${toy.id}" th:text="${toy.name}"></label>
+        <br />
+    </div>
+
+    <input type="submit" value="Donate toy" />
+</form>
+
+</body>
+</html>
