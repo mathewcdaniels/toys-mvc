@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1 th:text="${title}">Title</h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<p th:unless="${toys} and ${toys.size()}">Gavin has no toys!!</p>
+
+<table class="table">
+
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category</th>
+    </tr>
+
+    <tr th:each="toy : ${toys}">
+        <td th:text="${toy.name}"></td>
+        <td th:text="${toy.description}"></td>
+        <td th:text="${toy.category.name}"></td>
+    </tr>
+
+</table>
+
+<a href="/toys/add">Add a toy!</a> | <a href="/toys/remove">Donate a toy!</a>
+</body>
+</html>
