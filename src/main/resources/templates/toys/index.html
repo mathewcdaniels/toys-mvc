@@ -13,12 +13,14 @@
         <th>Name</th>
         <th>Description</th>
         <th>Category</th>
+        <th>Date</th>
     </tr>
 
     <tr th:each="toy : ${toys}">
         <td th:text="${toy.name}"></td>
         <td th:text="${toy.description}"></td>
         <td th:text="${toy.category.name}"></td>
+        <td th:text="${#dates.format(toy.acquisitionDate, 'MM-dd-yyyy')}"></td>
     </tr>
 
 </table>

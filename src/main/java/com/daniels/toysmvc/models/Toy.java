@@ -3,6 +3,7 @@ package com.daniels.toysmvc.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 public class Toy {
@@ -22,10 +23,13 @@ public class Toy {
     @ManyToOne
     private Category category;
 
+    private Date acquisitionDate = new Date();
+
     // Standard constructor
-    public Toy(String name, String description) {
+    public Toy(String name, String description, Date acquisitionDate) {
         this.name = name;
         this.description = description;
+        this.acquisitionDate = acquisitionDate;
     }
 
     // Default constructor
@@ -59,4 +63,6 @@ public class Toy {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public Date getAcquisitionDate() { return acquisitionDate; }
 }
