@@ -51,8 +51,9 @@ public class ToyController {
            model.addAttribute("categories", categoryDao.findAll());
            return "toys/add";
        }
+       // TODO-mcd: This might be the spot to add the checkboxes
        Category category = categoryDao.findOne(categoryId);
-       newToy.setCategory(category);
+       //newToy.setCategory(category);
        toyDao.save(newToy);
 
        return "redirect:";

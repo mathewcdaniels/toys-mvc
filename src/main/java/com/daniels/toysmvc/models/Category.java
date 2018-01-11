@@ -18,8 +18,8 @@ public class Category {
     @Size(min=3, max=20)
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "category_id")
+    @ManyToMany
+    //@JoinColumn(name = "category_id")
     private List<Toy> toys = new ArrayList<>();
 
     // Default constructor
@@ -45,5 +45,9 @@ public class Category {
 
     public List<Toy> getToys() {
         return toys;
+    }
+
+    public void addItem(Toy toy) {
+        toys.add(toy);
     }
 }

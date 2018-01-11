@@ -19,7 +19,7 @@
     <tr th:each="toy : ${toys}">
         <td th:text="${toy.name}"></td>
         <td th:text="${toy.description}"></td>
-        <td th:text="${toy.category.name}"></td>
+        <td><span th:each="cat, iterStat : ${toy.category}" th:text="!${iterStat.last} ? ${cat.name} + ', ': ${cat.name}"></span></td>
         <td th:text="${#dates.format(toy.acquisitionDate, 'MM-dd-yyyy')}"></td>
     </tr>
 

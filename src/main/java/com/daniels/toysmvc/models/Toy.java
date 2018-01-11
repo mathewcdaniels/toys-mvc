@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Toy {
@@ -20,8 +21,8 @@ public class Toy {
     @Size(min=3, message="Description must not be empty")
     private String description;
 
-    @ManyToOne
-    private Category category;
+    @ManyToMany(mappedBy = "toys")
+    private List<Category> category;
 
     private Date acquisitionDate = new Date();
 
@@ -56,11 +57,11 @@ public class Toy {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public List<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(List<Category> category) {
         this.category = category;
     }
 

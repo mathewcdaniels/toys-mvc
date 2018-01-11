@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<h1 th:text="${title}">title</h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<form method="post" th:object="${form}" action="/category/add-item">
+    <div class="form-group">
+        <label th:for="toyId">Toys</label>
+        <select name="toyId">
+            <option th:each="toy : *{toys}"
+                    th:text="${toy.name}"
+                    th:value="${toy.id}"></option>
+        </select>
+        <input type="hidden" name="categoryId" th:value="*{category.id}" />
+    </div>
+    <input type="submit" value="Add toy!" />
+</form>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<h1 th:text="${title}">Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<ul>
+    <li th:each="toy : ${toys}" th:text="${toy.name}"></li>
+</ul>
+
+<p th:unless="${toys.size()}">Gavin has no toys in this category!</p>
+
+<p><a th:href="'/category/add-item/' + ${categoryId}">Add a toy!</a></p>
+
+</body>
+</html>
