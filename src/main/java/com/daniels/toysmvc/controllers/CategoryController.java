@@ -62,7 +62,6 @@ public class CategoryController {
     @RequestMapping(value = "add-item/{categoryId}", method = RequestMethod.GET)
     public String addItem(Model model, @PathVariable int categoryId) {
 
-        //TODO-mcd: Create any .html necessary ("view")
         Category category = categoryDao.findOne(categoryId);
         AddCategoryItemForm form = new AddCategoryItemForm(category, toyDao.findAll());
         model.addAttribute("form", form);

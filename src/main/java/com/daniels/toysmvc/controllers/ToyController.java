@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("toys")
@@ -45,16 +45,19 @@ public class ToyController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddToyForm(Model model, @ModelAttribute @Valid Toy newToy,
-                                    @RequestParam int categoryId, Errors errors) {
+                                    @RequestParam int[] ids, Errors errors) {
        if (errors.hasErrors()) {
            model.addAttribute("title", "Add a toy!");
            model.addAttribute("categories", categoryDao.findAll());
            return "toys/add";
        }
-       // TODO-mcd: This might be the spot to add the checkboxes
-       Category category = categoryDao.findOne(categoryId);
-       //newToy.setCategory(category);
-       toyDao.save(newToy);
+        toyDao.save(newToy);
+        for (int id: ids) {
+           Category category = categoryDao.findOne(id);
+           category.addItem(newToy);
+           categoryDao.save(category);
+           //categories.add(category);
+        }
 
        return "redirect:";
     }
@@ -74,6 +77,34 @@ public class ToyController {
         }
         return "redirect:";
     }
+
+    // Changes start here
+    @RequestMapping(value = "remove/suggest", method = RequestMethod.GET)
+    public String displaySuggestRemoveToyForm(Model model) {
+        Calendar today = Calendar.getInstance();
+        today.add(Calendar.YEAR, -1);
+        Date oneYearAgo = today.getTime();
+        List<Toy> donate = new ArrayList<>();
+        for (Toy toy: toyDao.findAll()) {
+            //Date acquisitionDate = toy.getAcquisitionDate();
+            if (toy.getAcquisitionDate().before(oneYearAgo)) {
+                donate.add(toy);
+            }
+        }
+        model.addAttribute("toys", donate);
+        model.addAttribute("title", "Donate a toy");
+
+        return "toys/remove";
+    }
+
+    @RequestMapping(value = "remove/suggest", method = RequestMethod.POST)
+    public String processSuggestRemoveToyForm(@RequestParam int[] ids) {
+        for (int id : ids) {
+            toyDao.delete(id);
+        }
+        return "redirect:";
+    }
+    // Changes end here
 
     @RequestMapping(value = "category", method = RequestMethod.GET)
     public String category(Model model, @RequestParam int id) {
