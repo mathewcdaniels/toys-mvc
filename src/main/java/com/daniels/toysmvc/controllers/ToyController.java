@@ -56,7 +56,6 @@ public class ToyController {
            Category category = categoryDao.findOne(id);
            category.addItem(newToy);
            categoryDao.save(category);
-           //categories.add(category);
         }
 
        return "redirect:";
