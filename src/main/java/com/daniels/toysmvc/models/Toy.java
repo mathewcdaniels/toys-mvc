@@ -66,4 +66,9 @@ public class Toy {
     }
 
     public Date getAcquisitionDate() { return acquisitionDate; }
+
+    public void removeToyFromCategory(Category category) {
+        this.getCategory().remove(category);
+        category.removeItem(this);
+    }
 }

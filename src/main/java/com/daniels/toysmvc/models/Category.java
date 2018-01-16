@@ -47,7 +47,15 @@ public class Category {
         return toys;
     }
 
+    public void setToys(List<Toy> toys) {
+        this.toys = toys;
+    }
+
     public void addItem(Toy toy) {
         toys.add(toy);
+    }
+
+    public void removeItem(Toy toy) {
+        toys.remove(toy);
     }
 }

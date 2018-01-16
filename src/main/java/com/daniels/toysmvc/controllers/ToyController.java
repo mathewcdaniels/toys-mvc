@@ -43,6 +43,7 @@ public class ToyController {
         return "toys/add";
     }
 
+    // TODO-mcd: Add way to catch invalid entry
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddToyForm(Model model, @ModelAttribute @Valid Toy newToy,
                                     @RequestParam int[] ids, Errors errors) {
@@ -57,7 +58,6 @@ public class ToyController {
            category.addItem(newToy);
            categoryDao.save(category);
         }
-
        return "redirect:";
     }
 
@@ -65,19 +65,23 @@ public class ToyController {
     public String displayRemoveToyForm(Model model) {
         model.addAttribute("toys", toyDao.findAll());
         model.addAttribute("title", "Donate a toy");
-
         return "toys/remove";
     }
 
-    @RequestMapping(value = "remove", method = RequestMethod.POST)
+    @RequestMapping(value = {"remove", "remove/suggest"}, method = RequestMethod.POST)
     public String processRemoveToyForm(@RequestParam int[] ids) {
         for (int id : ids) {
-            toyDao.delete(id);
+            Toy toy = toyDao.findOne(id);
+            List<Category> categories = toy.getCategory();
+            while (!categories.isEmpty()) {
+                toy.removeToyFromCategory(categories.get(0));
+                categories = toy.getCategory();
+            }
+            toyDao.delete(toy);
         }
         return "redirect:";
     }
 
-    // Changes start here
     @RequestMapping(value = "remove/suggest", method = RequestMethod.GET)
     public String displaySuggestRemoveToyForm(Model model) {
         Calendar today = Calendar.getInstance();
@@ -92,18 +96,8 @@ public class ToyController {
         }
         model.addAttribute("toys", donate);
         model.addAttribute("title", "Donate a toy");
-
         return "toys/remove";
     }
-
-    @RequestMapping(value = "remove/suggest", method = RequestMethod.POST)
-    public String processSuggestRemoveToyForm(@RequestParam int[] ids) {
-        for (int id : ids) {
-            toyDao.delete(id);
-        }
-        return "redirect:";
-    }
-    // Changes end here
 
     @RequestMapping(value = "category", method = RequestMethod.GET)
     public String category(Model model, @RequestParam int id) {
